@@ -8,7 +8,7 @@ class IpToGeo(object):
 
     """read excel file for ip and get it geo data from https://www.iplocation.net/"""
 
-    def __init__(self, spreadsheet):
+    def __init__(self):
         super(IpToGeo, self).__init__()
         self.out = []
 
@@ -36,14 +36,8 @@ class IpToGeo(object):
         response = urllib2.urlopen(
             self.url + ip + "/json?token=iplocation.net").read()
         data = json.loads(response)
-        # location = data[u"loc"]
         city = data[u"city"]
-        # country = data[u"country"]
         region = data[u'region']
-        # hostname = data[u'hostname']
-        # ip = data[u'ip']
-        # org = data[u'org']
-        # postal_code = data[u'postal']
         print(u"""
 city:\t{}
 state:\t{}
@@ -54,7 +48,6 @@ state:\t{}
         xls_file = xlwt.Workbook()
         xls_file_name = "out_ips.xls"
         ips_sheet = xls_file.add_sheet("out")
-        i = 0
         for index_row, row in enumerate(data):
             for index_item, item in enumerate(row):
                 ips_sheet.write(index_row, index_item, item)
@@ -62,5 +55,5 @@ state:\t{}
 
 
 if __name__ == '__main__':
-    togeo = IpToGeo("test")
+    togeo = IpToGeo()
     togeo.loop_ips()
